@@ -8,6 +8,7 @@
 .libs
 Makefile
 Makefile.in
+conf-file
 
 core
 .gdb_history
