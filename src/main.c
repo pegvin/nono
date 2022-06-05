@@ -600,9 +600,9 @@ void usage(void) {
 #ifdef ENABLE_SPELLER
 	if (!ISSET(RESTRICTED))
 		print_opt(_("-s <program>"), _("--speller=<program>"),
+					N_("Use this alternative spell checker"));
 #endif
 	print_opt("-t", "--saveonexit", N_("Save changes on exit, don't prompt"));
-					N_("Use this alternative spell checker"));
 #ifndef NANO_TINY
 	print_opt("-u", "--unix", N_("Save a file by default in Unix format"));
 #endif
