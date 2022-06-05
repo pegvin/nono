@@ -14,6 +14,7 @@ core
 .gdb_history
 .gdbinit
 
+/po
 /src/nano
 /src/revision.h
 
