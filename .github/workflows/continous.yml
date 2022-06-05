@@ -51,6 +51,6 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "continuous"
         prerelease: true
-        title: "CSprite Continuous Release"
+        title: "Nono Continuous Release"
         files: |
             nono
