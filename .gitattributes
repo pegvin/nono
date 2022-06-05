@@ -1,8 +1,14 @@
 *       text=auto
 
 # Sources
-*.c     text linguist-language=c        diff=c
-*.h     text linguist-language=c        diff=c
-*.m4    text linguist-language=m4       diff=m4
-*.sh    text linguist-language=shell    diff=shell
-README  text linguist-language=Markdown diff=Markdown
+*.c           text linguist-language=c        diff=c
+*.h           text linguist-language=c        diff=c
+*.m4          text linguist-language=m4       diff=m4
+*.sh          text linguist-language=shell    diff=shell
+README        text linguist-language=Markdown diff=Markdown
+AUTHORS       text linguist-language=Markdown diff=Markdown
+ChangeLog     text linguist-language=Markdown diff=Markdown
+IMPROVEMENTS  text linguist-language=Markdown diff=Markdown
+NEWS          text linguist-language=Markdown diff=Markdown
+THANKS        text linguist-language=Markdown diff=Markdown
+TODO          text linguist-language=Markdown diff=Markdown
