@@ -32,23 +32,23 @@
 #endif
 
 #ifdef ENABLE_MOUSE
-static int oldinterval = -1;
-		/* Used to store the user's original mouse click interval. */
+	/* Used to store the user's original mouse click interval. */
+	static int oldinterval = -1;
 #endif
+
 #ifdef HAVE_TERMIOS_H
-static struct termios original_state;
-		/* The original settings of the user's terminal. */
+	/* The original settings of the user's terminal. */
+	static struct termios original_state;
 #else
-# define tcsetattr(...)
-# define tcgetattr(...)
+	#define tcsetattr(...)
+	#define tcgetattr(...)
 #endif
 
+/* Containers for the original and the temporary handler for SIGINT. */
 static struct sigaction oldaction, newaction;
-		/* Containers for the original and the temporary handler for SIGINT. */
 
-/* Create a new linestruct node.  Note that we do not set prevnode->next. */
-linestruct *make_new_node(linestruct *prevnode)
-{
+/* Create a new linestruct node. Note that we do not set prevnode->next. */
+linestruct *make_new_node(linestruct *prevnode) {
 	linestruct *newnode = nmalloc(sizeof(linestruct));
 
 	newnode->prev = prevnode;
@@ -66,8 +66,7 @@ linestruct *make_new_node(linestruct *prevnode)
 }
 
 /* Splice a new node into an existing linked list of linestructs. */
-void splice_node(linestruct *afterthis, linestruct *newnode)
-{
+void splice_node(linestruct *afterthis, linestruct *newnode) {
 	newnode->next = afterthis->next;
 	newnode->prev = afterthis;
 	if (afterthis->next != NULL)
@@ -80,8 +79,7 @@ void splice_node(linestruct *afterthis, linestruct *newnode)
 }
 
 /* Free the data structures in the given node. */
-void delete_node(linestruct *line)
-{
+void delete_node(linestruct *line) {
 	/* If the first line on the screen gets deleted, step one back. */
 	if (line == openfile->edittop)
 		openfile->edittop = line->prev;
@@ -98,8 +96,7 @@ void delete_node(linestruct *line)
 }
 
 /* Disconnect a node from a linked list of linestructs and delete it. */
-void unlink_node(linestruct *line)
-{
+void unlink_node(linestruct *line) {
 	if (line->prev != NULL)
 		line->prev->next = line->next;
 	if (line->next != NULL)
@@ -113,8 +110,7 @@ void unlink_node(linestruct *line)
 }
 
 /* Free an entire linked list of linestructs. */
-void free_lines(linestruct *src)
-{
+void free_lines(linestruct *src) {
 	if (src == NULL)
 		return;
 
@@ -127,8 +123,7 @@ void free_lines(linestruct *src)
 }
 
 /* Make a copy of a linestruct node. */
-linestruct *copy_node(const linestruct *src)
-{
+linestruct *copy_node(const linestruct *src) {
 	linestruct *dst = nmalloc(sizeof(linestruct));
 
 	dst->data = copy_of(src->data);
@@ -144,8 +139,7 @@ linestruct *copy_node(const linestruct *src)
 }
 
 /* Duplicate an entire linked list of linestructs. */
-linestruct *copy_buffer(const linestruct *src)
-{
+linestruct *copy_buffer(const linestruct *src) {
 	linestruct *head, *item;
 
 	head = copy_node(src);
@@ -168,8 +162,7 @@ linestruct *copy_buffer(const linestruct *src)
 }
 
 /* Renumber the lines in a buffer, from the given line onwards. */
-void renumber_from(linestruct *line)
-{
+void renumber_from(linestruct *line) {
 	ssize_t number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
 	while (line != NULL) {
@@ -179,8 +172,7 @@ void renumber_from(linestruct *line)
 }
 
 /* Display a warning about a key disabled in view mode. */
-void print_view_warning(void)
-{
+void print_view_warning(void) {
 	statusline(AHEM, _("Key is invalid in view mode"));
 }
 
@@ -197,8 +189,7 @@ bool in_restricted_mode(void)
 
 #ifndef NANO_TINY
 /* Say how the user can achieve suspension (when they typed ^Z). */
-void suggest_ctrlT_ctrlZ(void)
-{
+void suggest_ctrlT_ctrlZ(void) {
 #ifdef ENABLE_NANORC
 	if (first_sc_for(MMAIN, do_execute) && first_sc_for(MMAIN, do_execute)->keycode == 0x14 &&
 			first_sc_for(MEXECUTE, do_suspend) && first_sc_for(MEXECUTE, do_suspend)->keycode == 0x1A)
@@ -209,8 +200,7 @@ void suggest_ctrlT_ctrlZ(void)
 
 /* Make sure the cursor is visible, then exit from curses mode, disable
  * bracketed-paste mode, and restore the original terminal settings. */
-void restore_terminal(void)
-{
+void restore_terminal(void) {
 	curs_set(1);
 	endwin();
 #ifndef NANO_TINY
@@ -221,8 +211,7 @@ void restore_terminal(void)
 }
 
 /* Exit normally: restore terminal state and report any startup errors. */
-void finish(void)
-{
+void finish(void) {
 	/* Blank the status bar and (if applicable) the shortcut list. */
 	blank_statusbar();
 	blank_bottombars();
@@ -247,8 +236,7 @@ void finish(void)
 }
 
 /* Close the current buffer, and terminate nano if it is the only buffer. */
-void close_and_go(void)
-{
+void close_and_go(void) {
 #ifndef NANO_TINY
 	if (openfile->lock_filename)
 		delete_lockfile(openfile->lock_filename);
@@ -280,8 +268,7 @@ void close_and_go(void)
 /* Close the current buffer if it is unmodified; otherwise (when not doing
  * automatic saving), ask the user whether to save it, then close it and
  * exit, or return when the user cancelled. */
-void do_exit(void)
-{
+void do_exit(void) {
 	int choice;
 
 	/* When unmodified, simply close.  Else, when doing automatic saving
@@ -306,8 +293,7 @@ void do_exit(void)
 
 /* Save the current buffer under the given name (or "nano.<pid>" when nameless)
  * with suffix ".save".  If needed, the name is further suffixed to be unique. */
-void emergency_save(const char *filename)
-{
+void emergency_save(const char *filename) {
 	char *plainname, *targetname;
 
 	if (*filename == '\0') {
@@ -339,8 +325,7 @@ void emergency_save(const char *filename)
 
 /* Die gracefully -- by restoring the terminal state and saving any buffers
  * that were modified. */
-void die(const char *msg, ...)
-{
+void die(const char *msg, ...) {
 	va_list ap;
 	openfilestruct *firstone = openfile;
 	static int stabs = 0;
@@ -383,8 +368,7 @@ void die(const char *msg, ...)
 }
 
 /* Initialize the three window portions nano uses. */
-void window_init(void)
-{
+void window_init(void) {
 	/* When resizing, first delete the existing windows. */
 	if (midwin != NULL) {
 		if (topwin != NULL)
@@ -440,21 +424,18 @@ void window_init(void)
 }
 
 #ifdef ENABLE_MOUSE
-void disable_mouse_support(void)
-{
+void disable_mouse_support(void) {
 	mousemask(0, NULL);
 	mouseinterval(oldinterval);
 }
 
-void enable_mouse_support(void)
-{
+void enable_mouse_support(void) {
 	mousemask(ALL_MOUSE_EVENTS, NULL);
 	oldinterval = mouseinterval(50);
 }
 
 /* Switch mouse support on or off, as needed. */
-void mouse_init(void)
-{
+void mouse_init(void) {
 	if (ISSET(USE_MOUSE))
 		enable_mouse_support();
 	else
@@ -463,8 +444,7 @@ void mouse_init(void)
 #endif /* ENABLE_MOUSE */
 
 /* Print the usage line for the given option to the screen. */
-void print_opt(const char *shortflag, const char *longflag, const char *desc)
-{
+void print_opt(const char *shortflag, const char *longflag, const char *desc) {
 	int firstwidth = breadth(shortflag);
 	int secondwidth = breadth(longflag);
 
@@ -480,9 +460,8 @@ void print_opt(const char *shortflag, const char *longflag, const char *desc)
 }
 
 /* Explain how to properly use nano and its command-line options. */
-void usage(void)
-{
-	printf(_("Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
+void usage(void) {
+	printf(_("Usage: nono [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
 #ifndef NANO_TINY
 	/* TRANSLATORS: The next two strings are part of the --help output.
 	 * It's best to keep its lines within 80 characters. */
@@ -621,9 +600,9 @@ void usage(void)
 #ifdef ENABLE_SPELLER
 	if (!ISSET(RESTRICTED))
 		print_opt(_("-s <program>"), _("--speller=<program>"),
-					N_("Use this alternative spell checker"));
 #endif
 	print_opt("-t", "--saveonexit", N_("Save changes on exit, don't prompt"));
+					N_("Use this alternative spell checker"));
 #ifndef NANO_TINY
 	print_opt("-u", "--unix", N_("Save a file by default in Unix format"));
 #endif
@@ -645,19 +624,14 @@ void usage(void)
 
 /* Display the version number of this nano, a copyright notice, some contact
  * information, and the configuration options this nano was compiled with. */
-void version(void)
-{
+void version(void) {
 #ifdef REVISION
-	printf(" GNU nano from git, %s\n", REVISION);
+	printf(" GNU nono from git, %s\n", REVISION);
 #else
-	printf(_(" GNU nano, version %s\n"), VERSION);
+	printf(_(" GNU nono, version %s\n"), VERSION);
 #endif
-#ifndef NANO_TINY
-	printf(" (C) 1999-2011, 2013-2022 Free Software Foundation, Inc.\n");
-	printf(_(" (C) 2014-%s the contributors to nano\n"), "2022");
-#endif
-	printf(_(" Compiled options:"));
 
+	printf(_(" Compiled options:"));
 #ifdef NANO_TINY
 	printf(" --enable-tiny");
 #ifdef ENABLE_BROWSER
@@ -774,14 +748,12 @@ void version(void)
 }
 
 /* Register that Ctrl+C was pressed during some system call. */
-void make_a_note(int signal)
-{
+void make_a_note(int signal) {
 	control_C_was_pressed = TRUE;
 }
 
 /* Make ^C interrupt a system call and set a flag. */
-void install_handler_for_Ctrl_C(void)
-{
+void install_handler_for_Ctrl_C(void) {
 	/* Enable the generation of a SIGINT when ^C is pressed. */
 	enable_kb_interrupt();
 
@@ -792,16 +764,14 @@ void install_handler_for_Ctrl_C(void)
 }
 
 /* Go back to ignoring ^C. */
-void restore_handler_for_Ctrl_C(void)
-{
+void restore_handler_for_Ctrl_C(void) {
 	sigaction(SIGINT, &oldaction, NULL);
 	disable_kb_interrupt();
 }
 
 #ifndef NANO_TINY
 /* Reconnect standard input to the tty, and store its state. */
-void reconnect_and_store_state(void)
-{
+void reconnect_and_store_state(void) {
 	int thetty = open("/dev/tty", O_RDONLY);
 
 	if (thetty < 0 || dup2(thetty, STDIN_FILENO) < 0)
@@ -815,8 +785,7 @@ void reconnect_and_store_state(void)
 }
 
 /* Read whatever comes from standard input into a new buffer. */
-bool scoop_stdin(void)
-{
+bool scoop_stdin(void) {
 	FILE *stream;
 
 	restore_terminal();
