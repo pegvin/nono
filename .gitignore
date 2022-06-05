@@ -15,7 +15,7 @@ core
 .gdbinit
 
 /po
-/src/nano
+/src/nono
 /src/revision.h
 
 /ABOUT-NLS
