@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see https://www.gnu.org/licenses/.
 
-AC_INIT([GNU nano], [6.3], [nano-devel@gnu.org], [nano])
-AC_CONFIG_SRCDIR([src/nano.c])
+AC_INIT([nono], [1.0])
+AC_CONFIG_SRCDIR([src/main.c])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.14])
 AM_MAINTAINER_MODE([enable])
@@ -542,7 +542,6 @@ doc/Makefile
 doc/sample.nanorc
 lib/Makefile
 m4/Makefile
-po/Makefile.in
 src/Makefile
 syntax/Makefile
 ])

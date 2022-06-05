@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = doc lib m4 po src
+SUBDIRS = doc lib m4 src
 
 if USE_COLOR
 SUBDIRS += syntax

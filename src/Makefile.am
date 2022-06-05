@@ -9,7 +9,7 @@ else
 SOMETHING = "PLAINBUILD \"from tarball\""
 endif
 
-nano.o: revision.h
+main.o: revision.h
 winio.o: revision.h
 
 # Always run the commands in this rule.  But update the target
@@ -20,8 +20,8 @@ revision.h: FORCE
 			echo "#define $(SOMETHING)" > $@
 FORCE:
 
-bin_PROGRAMS = 	nano
-nano_SOURCES = \
+bin_PROGRAMS = nono
+nono_SOURCES = \
 		definitions.h \
 		prototypes.h \
 		browser.c \
@@ -33,7 +33,7 @@ nano_SOURCES = \
 		help.c \
 		history.c \
 		move.c \
-		nano.c \
+		main.c \
 		prompt.c \
 		rcfile.c \
 		search.c \
@@ -41,10 +41,10 @@ nano_SOURCES = \
 		utils.c \
 		winio.c
 
-nano_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a \
+nono_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a \
 		$(LIB_CLOCK_GETTIME) $(LIBTHREAD)
 
 install-exec-hook:
-	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nano rnano
+	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nono rnano
 uninstall-hook:
 	cd $(DESTDIR)$(bindir) && rm -f rnano
