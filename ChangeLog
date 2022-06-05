@@ -1,1 +1,5 @@
-All The Changes After 1.0 Will Be Recorded Here
+# Changelog
+
+- 5 Jun 2022
+  - Removed Language Translations
+  - Added A Clean Script (clean.sh) to clean stuff
