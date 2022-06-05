@@ -11,6 +11,9 @@ jobs:
     - name: Check out
       uses: actions/checkout@v2
 
+    - name: Install Deps
+      run: sudo apt-get install make autoconf automake make pkg-config
+
     - name: Generate Scripts
       run: ./autogen.sh
 
@@ -24,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: linux_binary
-        path: nono
+        path: ./src/nono
         if-no-files-found: error
 
   Create-Release:
