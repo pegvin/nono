@@ -59,5 +59,5 @@ autoconf
 echo "Autoheader..."
 autoheader
 echo "Automake..."
-automake --add-missing
+automake --add-missing --copy
 echo "Done."

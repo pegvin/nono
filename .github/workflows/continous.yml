@@ -14,11 +14,20 @@ jobs:
     - name: Install Deps
       run: sudo apt-get install make autoconf automake make pkg-config gettext groff
 
+    - name: List
+      run: ls
+
     - name: Generate Scripts
       run: ./autogen.sh
 
+    - name: List
+      run: ls
+
     - name: Generate Makefiles
       run: ./configure
+
+    - name: List
+      run: ls
 
     - name: Build
       run: make
