@@ -1,0 +1,8 @@
+*       text=auto
+
+# Sources
+*.c     text linguist-language=c        diff=c
+*.h     text linguist-language=c        diff=c
+*.m4    text linguist-language=m4       diff=m4
+*.sh    text linguist-language=shell    diff=shell
+README  text linguist-language=markdown diff=markdown
